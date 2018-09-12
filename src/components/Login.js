@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
-
+var expect = require('expect');
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +24,31 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    event.preventDefault();
+     fetch('/api/signin', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: this.state.email,
+    password: this.state.password,
+  }),
+}).then((response) => response.json())
+    .then((responseJson) => {
+      if(responseJson.email == this.state.email){
+        console.log(responseJson);
+        const { history } = this.props;
+        console.log("yoo");
+  
+      history.push('/mainpage');
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  
   }
 
   render() {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
+import HomePage from './HomePage';
 
 export default class Signup extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class Signup extends Component {
       password: ""
     };
   }
+
 
   validateForm() {
     return this.state.email.length > 0 && this.state.password.length > 0;
@@ -24,6 +26,25 @@ export default class Signup extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+     fetch('/api/signup', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: this.state.email,
+    password: this.state.password,
+  }),
+}).then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+   
   }
 
   render() {
