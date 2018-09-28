@@ -20,7 +20,7 @@ class MainPage extends Component {
 
 	
       <div>
-<div><h1><Badge color="secondary">REACTVIZ</Badge></h1></div>
+<div><h1><Badge color="secondary">VIZUDATA</Badge></h1></div>
  <Container>
         <Row>
           <Col><h1>Upload csv file</h1>
