@@ -22,12 +22,13 @@ class NewVis extends Component {
     this.state = {
 	data:[[0,0],[0,0]],
       xAxis: "",
-      yAxis: ""
+      yAxis: "",
+	nameVis:""
     };
   }
 
   validateForm() {
-    return this.state.xAxis.length == this.state.yAxis.length;
+    return this.state.xAxis.length == this.state.yAxis.length && this.state.xAxis.length>0 && this.state.yAxis.length>0 && this.state.nameVis.length>0;
   }
 
   handleChange = event => {
@@ -52,8 +53,34 @@ class NewVis extends Component {
 
   }
 
-   buttonClicked() {
-        alert('Button was clicked!')
+   buttonClicked= event => {
+	console.log(JSON.parse(localStorage.getItem('session')).email);
+        console.log(this.state.xAxis.split(",").map(Number));
+     fetch('/api/newVis', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: JSON.parse(localStorage.getItem('session')).email,
+    x:this.state.xAxis.split(",").map(Number),
+    y:this.state.yAxis,
+    name: this.state.nameVis,
+    width:300,
+    height:300
+    
+	
+  }),
+}).then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+	alert('Visualização salva com sucesso');
+    })
+    .catch((error) => {
+	alert(error);
+      console.error(error);
+    });
     }
 
   render() {
@@ -73,7 +100,16 @@ class NewVis extends Component {
 	<Row><Col>
 	<div className="Login">
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="xAxis" bsSize="large">
+          <FormGroup controlId="nameVis" bsSize="large">
+	<ControlLabel>Nome da Visualização</ControlLabel>
+            <FormControl
+              autoFocus
+              type="text"
+              value={this.state.nameVis}
+              onChange={this.handleChange}
+            />
+	</FormGroup>
+	<FormGroup controlId="xAxis" bsSize="large">
             <ControlLabel>Eixo X(números separados por vírgula)</ControlLabel>
             <FormControl
               autoFocus
