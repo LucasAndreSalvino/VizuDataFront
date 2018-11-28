@@ -14,14 +14,14 @@ class NewVis extends Component {
   constructor(props) {
 	 super(props);
     this.state = {
-	data:[[1,2],[3,2],[5,4]],
+	data:[[0,0],[0,0]],
       xAxis: "",
       yAxis: ""
     };
   }
 
   validateForm() {
-    //validar depois
+    return this.state.xAxis.length == this.state.yAxis.length;
   }
 
   handleChange = event => {
@@ -32,14 +32,23 @@ class NewVis extends Component {
 
   handleSubmit= event => {
     event.preventDefault();
+    var dataArrAux = [this.state.xAxis.split(",").map(Number),this.state.yAxis.split(",").map(Number)];
+    var dataArr = dataArrAux[0].map(function(col, i) {
+    return dataArrAux.map(function(row) {
+        return row[i];
+    });
+});
     this.setState({
-      data:[this.state.xAxis.split(",").map(Number),this.state.yAxis.split(",").map(Number)]
+      data:dataArr
 
     });
     
-    
-    
+
   }
+
+   buttonClicked() {
+        alert('Button was clicked!')
+    }
 
   render() {
     return (
@@ -59,7 +68,7 @@ class NewVis extends Component {
 	<div className="Login">
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="xAxis" bsSize="large">
-            <ControlLabel>xAxis</ControlLabel>
+            <ControlLabel>Eixo X(números separados por vírgula)</ControlLabel>
             <FormControl
               autoFocus
               type="text"
@@ -68,7 +77,7 @@ class NewVis extends Component {
             />
           </FormGroup>
           <FormGroup controlId="yAxis" bsSize="large">
-            <ControlLabel>yAxis</ControlLabel>
+            <ControlLabel>Eixo Y(números separados por vírgula)</ControlLabel>
             <FormControl
               value={this.state.yAxis}
               onChange={this.handleChange}
@@ -77,6 +86,7 @@ class NewVis extends Component {
           </FormGroup>
           <Button
             block
+	    disabled={!this.validateForm()}
             bsSize="large"
             type="submit"
           >
@@ -91,7 +101,7 @@ class NewVis extends Component {
 	<Row>
           <Col><div><h3>Visualização Pŕevia</h3></div>
 		<Row><Col><div align='center'><VisPrev data={this.state.data} /></div></Col></Row>
-		<Button>
+		<Button onClick={this.buttonClicked}>
             Salvar Visualização
           </Button>
 <hr className="previa" />
