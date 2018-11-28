@@ -37,11 +37,12 @@ export default class Login extends Component {
   }),
 }).then((response) => response.json())
     .then((responseJson) => {
-      if(responseJson.email == this.state.email){
+      if(responseJson.email == this.state.email && responseJson.password == this.state.password){
         console.log(responseJson);
         const { history } = this.props;
         console.log("yoo");
-  
+  	localStorage.setItem('session',JSON.stringify(responseJson));
+	 console.log(localStorage.getItem('session'));
       history.push('/mainpage');
       }
     })

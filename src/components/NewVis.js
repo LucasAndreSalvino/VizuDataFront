@@ -10,9 +10,15 @@ import "./Login.css";
 
 
 class NewVis extends Component {
-
+	
   constructor(props) {
 	 super(props);
+	console.log(localStorage.getItem('session'));
+	const { history } = this.props;
+	if(localStorage.getItem('session')=="false"){
+		console.log("yoo");
+		history.push('/');
+	}
     this.state = {
 	data:[[0,0],[0,0]],
       xAxis: "",
